@@ -11,55 +11,54 @@ class RegisterPage extends StatelessWidget {
           'Register',
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Buat Akun Baru',
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w800,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Daftarkan akun untuk mengakses sistem helpdesk.',
             style: TextStyle(
-              color: Colors.grey,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               height: 1.5,
             ),
           ),
           const SizedBox(height: 28),
-          _buildField(
+          _buildField(context,
             label: 'Nama Lengkap',
             hint: 'Masukkan nama lengkap',
             icon: Icons.person_outline,
           ),
           const SizedBox(height: 16),
-          _buildField(
+          _buildField(context,
             label: 'Email',
             hint: 'Masukkan email',
             icon: Icons.email_outlined,
           ),
           const SizedBox(height: 16),
-          _buildField(
+          _buildField(context,
             label: 'Username',
             hint: 'Masukkan username',
             icon: Icons.account_circle_outlined,
           ),
           const SizedBox(height: 16),
-          _buildField(
+          _buildField(context,
             label: 'Password',
             hint: 'Masukkan password',
             icon: Icons.lock_outline,
             obscureText: true,
           ),
           const SizedBox(height: 16),
-          _buildField(
+          _buildField(context,
             label: 'Konfirmasi Password',
             hint: 'Ulangi password',
             icon: Icons.lock_reset_outlined,
@@ -96,7 +95,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _buildField({
+  Widget _buildField(BuildContext context, {
     required String label,
     required String hint,
     required IconData icon,
@@ -107,8 +106,9 @@ class RegisterPage extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -118,7 +118,7 @@ class RegisterPage extends StatelessWidget {
             hintText: hint,
             prefixIcon: Icon(icon),
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: Theme.of(context).cardColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,

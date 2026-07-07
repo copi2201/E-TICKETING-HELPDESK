@@ -11,33 +11,32 @@ class ForgotPasswordPage extends StatelessWidget {
           'Forgot Password',
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
           const SizedBox(height: 8),
-          const Icon(
+          Icon(
             Icons.lock_reset_rounded,
             size: 72,
-            color: Color(0xFF2563EB),
+            color: Theme.of(context).colorScheme.primary,
           ),
           const SizedBox(height: 20),
-          const Text(
+          Text(
             'Reset Password',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w800,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 10),
-          const Text(
+          Text(
             'Masukkan email akunmu untuk menerima instruksi reset password.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.grey,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               height: 1.5,
             ),
           ),
@@ -54,7 +53,7 @@ class ForgotPasswordPage extends StatelessWidget {
               hintText: 'Masukkan email',
               prefixIcon: const Icon(Icons.email_outlined),
               filled: true,
-              fillColor: const Color(0xFFF8FAFC),
+              fillColor: Theme.of(context).cardColor,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide.none,

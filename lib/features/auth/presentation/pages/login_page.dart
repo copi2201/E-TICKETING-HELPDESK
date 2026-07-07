@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:helpdesk_mobile/features/auth/data/services/auth_service.dart';
 import 'package:helpdesk_mobile/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:helpdesk_mobile/features/auth/presentation/pages/register_page.dart';
-import 'package:helpdesk_mobile/features/dashboard/presentation/pages/dashboard_page.dart';
-
+import 'package:helpdesk_mobile/features/dashboard/presentation/pages/admin_dashboard_page.dart';
+import 'package:helpdesk_mobile/features/dashboard/presentation/pages/helpdesk_dashboard_page.dart';
+import 'package:helpdesk_mobile/features/dashboard/presentation/pages/user_dashboard_page.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -13,6 +15,75 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
   bool _rememberMe = false;
+  final AuthService _authService = AuthService();
+
+  final TextEditingController _usernameController =
+  TextEditingController();
+
+  final TextEditingController _passwordController =
+  TextEditingController();
+
+  Future<void> _login() async {
+    final email = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email dan password wajib diisi'),
+        ),
+      );
+      return;
+    }
+
+    try {
+      final user = await _authService.login(
+        email: email,
+        password: password,
+      );
+
+      final role = user['role'];
+
+      if (!mounted) return;
+
+      if (role == 'admin') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const AdminDashboardPage(),
+          ),
+        );
+      } else if (role == 'helpdesk') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const HelpdeskDashboardPage(),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const UserDashboardPage(),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+        ),
+      );
+    }
+  }
+
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +195,8 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.stretch,
                           children: [
                             const Text(
                               'Sign In',
@@ -143,64 +215,83 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             const SizedBox(height: 20),
+
                             TextField(
+                              controller: _usernameController,
                               decoration: InputDecoration(
                                 hintText: 'Username',
-                                prefixIcon: const Icon(Icons.person_outline),
+                                prefixIcon:
+                                const Icon(Icons.person_outline),
                                 filled: true,
                                 fillColor: const Color(0xFFF8FAFC),
-                                contentPadding: const EdgeInsets.symmetric(
+                                contentPadding:
+                                const EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 16,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18),
+                                  borderRadius:
+                                  BorderRadius.circular(18),
                                   borderSide: BorderSide.none,
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 14),
+
                             TextField(
+                              controller: _passwordController,
                               obscureText: _obscurePassword,
                               decoration: InputDecoration(
                                 hintText: 'Password',
-                                prefixIcon: const Icon(Icons.lock_outline),
+                                prefixIcon:
+                                const Icon(Icons.lock_outline),
                                 suffixIcon: IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      _obscurePassword = !_obscurePassword;
+                                      _obscurePassword =
+                                      !_obscurePassword;
                                     });
                                   },
                                   icon: Icon(
                                     _obscurePassword
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined,
+                                        ? Icons
+                                        .visibility_off_outlined
+                                        : Icons
+                                        .visibility_outlined,
                                   ),
                                 ),
                                 filled: true,
                                 fillColor: const Color(0xFFF8FAFC),
-                                contentPadding: const EdgeInsets.symmetric(
+                                contentPadding:
+                                const EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 16,
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18),
+                                  borderRadius:
+                                  BorderRadius.circular(18),
                                   borderSide: BorderSide.none,
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 12),
+
                             Row(
                               children: [
                                 Checkbox(
                                   value: _rememberMe,
-                                  activeColor: const Color(0xFF2563EB),
+                                  activeColor:
+                                  const Color(0xFF2563EB),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
+                                    borderRadius:
+                                    BorderRadius.circular(4),
                                   ),
                                   onChanged: (value) {
                                     setState(() {
-                                      _rememberMe = value ?? false;
+                                      _rememberMe =
+                                          value ?? false;
                                     });
                                   },
                                 ),
@@ -227,50 +318,60 @@ class _LoginPageState extends State<LoginPage> {
                                     'Lupa password?',
                                     style: TextStyle(
                                       color: Color(0xFF2563EB),
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight:
+                                      FontWeight.w600,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
+
                             const SizedBox(height: 6),
+
                             SizedBox(
                               height: 54,
                               child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const DashboardPage(),
-                                    ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF111827),
-                                  foregroundColor: Colors.white,
+                                onPressed: _login,
+                                style:
+                                ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                  const Color(0xFF111827),
+                                  foregroundColor:
+                                  Colors.white,
                                   elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
+                                  shape:
+                                  RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        18),
                                   ),
                                 ),
                                 child: const Text(
                                   'Login',
                                   style: TextStyle(
                                     fontSize: 15,
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight:
+                                    FontWeight.w700,
                                   ),
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 14),
+
                             Container(
-                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              padding:
+                              const EdgeInsets.symmetric(
+                                  vertical: 14),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: const Color(0xFFF8FAFC),
+                                borderRadius:
+                                BorderRadius.circular(16),
+                                color:
+                                const Color(0xFFF8FAFC),
                               ),
                               child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
                                 children: [
                                   Icon(
                                     Icons.security_rounded,
@@ -282,8 +383,10 @@ class _LoginPageState extends State<LoginPage> {
                                     'Secure access for internal helpdesk',
                                     style: TextStyle(
                                       fontSize: 13,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xFF374151),
+                                      fontWeight:
+                                      FontWeight.w500,
+                                      color:
+                                      Color(0xFF374151),
                                     ),
                                   ),
                                 ],
@@ -292,13 +395,16 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                       ),
+
                       const SizedBox(height: 20),
+
                       TextButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const RegisterPage(),
+                              builder: (_) =>
+                              const RegisterPage(),
                             ),
                           );
                         },
@@ -314,7 +420,8 @@ class _LoginPageState extends State<LoginPage> {
                                 text: 'Daftar sekarang',
                                 style: TextStyle(
                                   color: Color(0xFF111827),
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight:
+                                  FontWeight.w700,
                                 ),
                               ),
                             ],
