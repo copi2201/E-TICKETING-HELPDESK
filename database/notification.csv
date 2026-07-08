@@ -1,0 +1,11 @@
+2,1,ticket_created,Tiket Baru: laptop rusak,blue sv]creen,ticket,7,t,2026-07-07 02:29:28,2026-07-07 02:29:59
+1,1,ticket_created,Tiket Baru: test,test,ticket,6,t,2026-07-07 00:34:18,2026-07-07 02:30:03
+4,2,ticket_updated,Tiket: laptop rusak,Tiket ditugaskan ke helpdesk,ticket,7,t,2026-07-07 02:30:44,2026-07-07 02:31:24
+3,3,ticket_updated,Tiket: laptop rusak,Tiket ditugaskan ke helpdesk,ticket,7,t,2026-07-07 02:30:44,2026-07-07 04:35:17
+5,3,ticket_updated,Tiket: laptop rusak,Helpdesk mulai mengerjakan tiket,ticket,7,t,2026-07-07 02:31:34,2026-07-07 04:35:17
+7,3,ticket_updated,Tiket: laptop rusak,Tiket selesai dikerjakan,ticket,7,t,2026-07-07 02:31:44,2026-07-07 04:35:17
+9,1,ticket_created,Tiket Baru: lampu mati,ga bisa nyala,ticket,8,f,2026-07-07 04:59:49,2026-07-07 04:59:49
+10,3,ticket_updated,Tiket: lampu mati,Tiket ditugaskan ke helpdesk,ticket,8,f,2026-07-07 05:00:58,2026-07-07 05:00:58
+11,2,ticket_updated,Tiket: lampu mati,Tiket ditugaskan ke helpdesk,ticket,8,t,2026-07-07 05:00:58,2026-07-07 05:01:43
+6,2,ticket_updated,Tiket: laptop rusak,Helpdesk mulai mengerjakan tiket,ticket,7,t,2026-07-07 02:31:34,2026-07-07 05:01:45
+8,2,ticket_updated,Tiket: laptop rusak,Tiket selesai dikerjakan,ticket,7,t,2026-07-07 02:31:44,2026-07-07 05:01:45
